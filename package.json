@@ -1,0 +1,19 @@
+{
+  "name": "pi-extension-llmgateway-provider",
+  "private": true,
+  "version": "0.1.0",
+  "description": "pi coding agent extension that auto-discovers LLMGateway models and registers them as a provider.",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'nothing to build'",
+    "check": "echo 'nothing to check'"
+  },
+  "pi": {
+    "extensions": [
+      "./llmgateway-provider.ts"
+    ]
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  }
+}
