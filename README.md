@@ -62,6 +62,47 @@ Once loaded, select the `llmgateway` provider and a model such as
 `openai/gpt-4o` or `anthropic/claude-3-5-sonnet`. The `/` separates the upstream
 provider from the model id.
 
+## Recent models
+
+Model discovery is **live** — every model LLMGateway advertises is registered
+automatically, so the extension always covers the current generation without
+any hardcoded list. The table below (cross-checked against
+[Artificial Analysis](https://artificialanalysis.ai/leaderboards/models)) shows
+the recent families that are already served. Models are registered as
+`<providerId>/<modelId>`; `*` = the route exposes reasoning, `V` = vision.
+
+| Registered model id | Context | `*` | `V` |
+|---|---|---|---|
+| `openai/gpt-5.6-luna` | 1M | ✓ | ✓ |
+| `openai/gpt-5.5` / `-pro` | 1M | ✓ | ✓ |
+| `openai/gpt-5.4` / `-mini` / `-nano` | 1M / 1M / 400k | ✓ | ✓ / ✓ / ✗ |
+| `openai/gpt-5.2` / `-pro` / `-codex` | 1M | ✓ | ✓ |
+| `openai/gpt-5.1` / `-codex` | 1M | ✓ | ✓ |
+| `openai/gpt-5` / `-mini` / `-nano` / `-pro` | 1M | ✓ | ✓ |
+| `anthropic/claude-opus-5` | 1M | ✓ | ✓ |
+| `anthropic/claude-opus-4-8` … `4-6` `4-5` `4-1` | 1M | ✓ | ✓ |
+| `anthropic/claude-sonnet-5` / `4-6` / `4-5` | 1M | ✓ | ✓ |
+| `anthropic/claude-haiku-4-5` | 1M | ✓ | ✓ |
+| `google-ai-studio/gemini-3.7-flash` | 1M+ | ✓ | ✓ |
+| `google-ai-studio/gemini-3.6` / `3.5` / `3.1-pro` / `3.1-flash-lite` | var | ✓ | ✓ |
+| `google-ai-studio/gemini-2.5-pro` / `-flash` / `-flash-lite` | 1M | ✓ | ✓ |
+| `deepseek/deepseek-v4-pro` / `deepseek-v4-flash` | var | ✓ | ✗ |
+| `zai/glm-5.3` / `glm-5.2` / `glm-5.1` / `glm-5` | var | ✓ | ✗ |
+
+Notes:
+- **252 of 256** discovered models carry an explicit `context_length` (the rest
+  fall back to the 128k default in the extension).
+- Multi-provider routing is preserved: e.g. `claude-opus-5` is also exposed as
+  `aws-bedrock/claude-opus-5` and `vertex-anthropic/claude-opus-5`;
+  `deepseek-v4-flash` spans 13 provider routes. Each route becomes its own
+  selectable model id.
+- Per-route `pricing`, `maxTokens`, `reasoning_efforts`, and input modalities
+  are taken from the gateway response, so cost and capability metadata stay
+  accurate as models change.
+
+Because discovery is live, newer models appear automatically after a pi restart
+— no extension update required.
+
 ## Files
 
 | File | Purpose |
